@@ -30,8 +30,10 @@ George Gesslein II, P.O. Box 224, Lansing, NY  14882-0224  USA.
  * The amplitude is stored in *radiusp and the angle in radians is stored in *thetap.
  */
 void
-rect_to_polar(x, y, radiusp, thetap)
-double	x, y, *radiusp, *thetap;
+rect_to_polar(double x,
+	double y,
+	double *radiusp,
+	double *thetap)
 {
 	*radiusp = sqrt(x * x + y * y);
 	*thetap = atan2(y, x);

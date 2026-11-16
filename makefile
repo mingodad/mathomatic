@@ -98,7 +98,7 @@ mathdatadir	?= $(datadir)/mathomatic
 AOUT		?= mathomatic
 M4SCRIPTPATH	= $(DESTDIR)$(bindir)/matho
 
-INCLUDES	= includes.h license.h standard.h am.h externs.h blt.h complex.h proto.h altproto.h
+INCLUDES	= includes.h license.h standard.h am.h externs.h blt.h complex.h proto.h
 MATHOMATIC_OBJECTS += main.o globals.o am.o solve.o help.o parse.o cmds.o simplify.o \
 		  factor.o super.o unfactor.o poly.o diff.o integrate.o \
 		  complex.o complex_lib.o list.o gcd.o factor_int.o

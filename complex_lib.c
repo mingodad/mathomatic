@@ -41,8 +41,7 @@ George Gesslein II, P.O. Box 224, Lansing, NY  14882-0224  USA.
  * Return true if something was zeroed out.
  */
 int
-complex_fixup(ap)
-complexs	*ap;	/* complex number pointer */
+complex_fixup(complexs *ap)	/* complex number pointer */
 {
 	if (fabs(ap->re * epsilon) > fabs(ap->im)) {
 		ap->im = 0.0;
@@ -63,8 +62,8 @@ complexs	*ap;	/* complex number pointer */
  * complex_add(a, complex_negate(b)).
  */
 complexs
-complex_add(a, b)
-complexs	a, b;
+complex_add(complexs a,
+	complexs b)
 {
 	a.re += b.re;
 	a.im += b.im;
@@ -76,8 +75,7 @@ complexs	a, b;
  * and return the complex number result.
  */
 complexs
-complex_negate(a)
-complexs	a;
+complex_negate(complexs a)
 {
 	a.re = -a.re;
 	a.im = -a.im;
@@ -89,8 +87,8 @@ complexs	a;
  * and return the complex number result.
  */
 complexs
-complex_mult(a, b)
-complexs	a, b;
+complex_mult(complexs a,
+	complexs b)
 {
 	complexs	r;
 
@@ -104,9 +102,8 @@ complexs	a, b;
  * and return the complex number result.
  */
 complexs
-complex_div(a, b)
-complexs	a;	/* dividend */
-complexs	b;	/* divisor */
+complex_div(complexs a,	/* dividend */
+	complexs b)	/* divisor */
 {
 	complexs	r, num;
 	double		denom;
@@ -124,8 +121,7 @@ complexs	b;	/* divisor */
  * and return the complex number result.
  */
 complexs
-complex_log(a)
-complexs	a;
+complex_log(complexs a)
 {
 	complexs	r;
 
@@ -139,8 +135,7 @@ complexs	a;
  * and return the complex number result.
  */
 complexs
-complex_exp(a)
-complexs	a;
+complex_exp(complexs a)
 {
 	complexs	r;
 	double		m;
@@ -156,8 +151,8 @@ complexs	a;
  * and return the complex number result.
  */
 complexs
-complex_pow(a, b)
-complexs	a, b;
+complex_pow(complexs a,
+	complexs b)
 {
 	complexs	r;
 

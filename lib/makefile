@@ -43,7 +43,7 @@ $(LIB): lib.o $(MATHOMATIC_OBJECTS)
 	@echo Symbolic math library $(LIB) created.
 	@echo
 
-lib.o $(MATHOMATIC_OBJECTS): $(HEADERS) ../includes.h ../license.h ../standard.h ../am.h ../externs.h ../blt.h ../complex.h ../proto.h ../altproto.h ../VERSION
+lib.o $(MATHOMATIC_OBJECTS): $(HEADERS) ../includes.h ../license.h ../standard.h ../am.h ../externs.h ../blt.h ../complex.h ../proto.h ../VERSION
 
 $(MATHOMATIC_OBJECTS): %.o: ../%.c
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@

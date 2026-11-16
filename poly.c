@@ -73,9 +73,12 @@ static int find_highest_count(token_type *p1, int n1, token_type *p2, int n2, lo
  * Compare function for qsort(3).
  */
 static int
-vcmp(p1, p2)
-sort_type	*p1, *p2;
+vcmp(const void *vp1,
+	const void *vp2)
 {
+	const sort_type *p1 = vp1;
+	const sort_type *p2 = vp2;
+
 	if (p2->count == p1->count) {
 		if (p1->v < p2->v)
 			return -1;
@@ -828,7 +831,7 @@ int
 is_integer_var(MathoMatic* mathomatic, long v)
 {
 	char	*cp;
-	int	(*strncmpfunc)();
+	int	(*strncmpfunc)(const char *, const char *, size_t);
 
 	if (mathomatic->case_sensitive_flag) {
 		strncmpfunc = strncmp;
@@ -1862,11 +1865,11 @@ basic_size(MathoMatic* mathomatic, token_type *p1, int len)
 }
 
 int
-get_term(p1, n1, count, tp1, lentp1)
-token_type	*p1;
-int		n1;
-int		count;
-int		*tp1, *lentp1;
+get_term(token_type *p1,
+	int n1,
+	int count,
+	int *tp1,
+	int *lentp1)
 {
 	int	i, j;
 	int	no;
@@ -1896,12 +1899,11 @@ int		*tp1, *lentp1;
  * and the number of times it occurs in the dividend is returned.
  */
 static int
-find_highest_count(p1, n1, p2, n2, vp1)
-token_type	*p1;		/* pointer to dividend expression */
-int		n1;		/* length of dividend */
-token_type	*p2;		/* pointer to divisor expression */
-int		n2;		/* length of divisor */
-long		*vp1;		/* variable pointer to return base variable with */
+find_highest_count(token_type *p1,	/* pointer to dividend expression */
+	int n1,	/* length of dividend */
+	token_type *p2,	/* pointer to divisor expression */
+	int n2,	/* length of divisor */
+	long *vp1)	/* variable pointer to return base variable with */
 {
 	int		i;
 	int		vc, cnt;
@@ -1966,10 +1968,10 @@ long		*vp1;		/* variable pointer to return base variable with */
 #define	VALUE_CNT	3
 
 void
-term_value(dp, p1, n1, loc)
-double		*dp;
-token_type	*p1;
-int		n1, loc;
+term_value(double *dp,
+	token_type *p1,
+	int n1,
+	int loc)
 {
 	int	i, j, k;
 	int	divide_flag = false;
@@ -2043,15 +2045,13 @@ int		n1, loc;
  * then 0 is returned and *vp1 is set to a valid polynomial base variable, if any.
  */
 int
-find_greatest_power(p1, n1, vp1, pp1, tp1, lentp1, dcodep)
-token_type	*p1;		/* pointer to expression */
-int		n1;		/* length of expression */
-long		*vp1;		/* polynomial base variable */
-double		*pp1;		/* returned power of the returned term, which will be the highest power */
-int		*tp1, *lentp1;	/* the returned term index and length */
-int		*dcodep;	/* divide flag pointer indicates if term is a denominator; */
-				/* for example: for x^5 it is false, for 1/x^5 it is true. */
-				/* If equal to 2, set it; if equal to 3, ignore it. */
+find_greatest_power(token_type *p1,	/* pointer to expression */
+	int n1,	/* length of expression */
+	long *vp1,	/* polynomial base variable */
+	double *pp1,	/* returned power of the returned term, which will be the highest power */
+	int *tp1,
+	int *lentp1,
+	int *dcodep)	/* divide flag pointer indicates if term is a denominator; */
 {
 	int		i, j, k, ii;
 	double		d;

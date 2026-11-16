@@ -513,9 +513,12 @@ simp2_divide(MathoMatic* mathomatic, token_type *equation, int *np, long v, int 
  * Compare function for qsort(3) within simpb_side() below.
  */
 static int
-simpb_vcmp(p1, p2)
-sort_type	*p1, *p2;
+simpb_vcmp(const void *vp1,
+	const void *vp2)
 {
+	const sort_type *p1 = vp1;
+	const sort_type *p2 = vp2;
+
 	if (((p1->v & VAR_MASK) == SIGN) == ((p2->v & VAR_MASK) == SIGN)) {
 		if (p2->count == p1->count) {
 			if (p1->v < p2->v)
@@ -1192,8 +1195,8 @@ simp2_power(MathoMatic* mathomatic, token_type *equation, int *np)
  * Hopefully this fixes them.
  */
 double
-fixed_fmod(k1, k2)
-double	k1, k2;
+fixed_fmod(double k1,
+	double k2)
 {
 	double	d;
 

@@ -3181,7 +3181,10 @@ display_cmd(MathoMatic* mathomatic, char *cp)
 	int	i, j;
 	char	*cp1;
 	jmp_buf	save_save;
-	int	factor_flag = false, displayed = 0;
+	int	factor_flag = false;
+#if	!LIBRARY
+	int	displayed = 0;
+#endif
 	int	orig_fractions_display_mode, new_fractions_display_mode;
 
 	new_fractions_display_mode = orig_fractions_display_mode = mathomatic->fractions_display;
@@ -3233,9 +3236,7 @@ display_cmd(MathoMatic* mathomatic, char *cp)
 				if (mathomatic->result_str)
 					mathomatic->result_en = i;
 				if (mathomatic->gfp != stdout) {
-					if (flist_equation(mathomatic, i) > 0) {
-						displayed++;
-					}
+					flist_equation(mathomatic, i);
 				}
 #else
 				if (flist_equation(mathomatic, i) > 0) {
@@ -3438,9 +3439,12 @@ code_cmd(MathoMatic* mathomatic, char *cp)
  * Compare function for qsort(3).
  */
 static int
-vcmp(p1, p2)
-sort_type	*p1, *p2;
+vcmp(const void *vp1,
+	const void *vp2)
 {
+	const sort_type *p1 = vp1;
+	const sort_type *p2 = vp2;
+
 	if (p2->count == p1->count) {
 		if (p1->v < p2->v)
 			return -1;
@@ -4672,8 +4676,11 @@ int
 save_cmd(MathoMatic* mathomatic, char *cp)
 {
 	FILE	*fp;
-	int	rv, space_flag = false, error_flag;
+	int	rv, error_flag;
+#if	!SILENT
+	int	space_flag = false;
 	char	*cp1;
+#endif
 
 	if (mathomatic->security_level >= 2) {
 		mathomatic->show_usage = false;
@@ -4685,12 +4692,12 @@ save_cmd(MathoMatic* mathomatic, char *cp)
 		error(mathomatic, _("No file name specified; nothing was saved."));
 		return false;
 	}
+#if	!SILENT
 	for (cp1 = cp; *cp1; cp1++) {
 		if (isspace(*cp1)) {
 			space_flag = true;
 		}
 	}
-#if	!SILENT
 	if (access(cp, F_OK) == 0) {
 		if (access(cp, W_OK)) {
 			perror(cp);

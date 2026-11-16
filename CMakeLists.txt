@@ -26,7 +26,6 @@ add_library(mathomatic_cmake
 	includes.h
 	standard.h
 	am.h
-	altproto.h
 	externs.h
 	blt.h
 	license.h
@@ -67,7 +66,6 @@ add_executable(mathomatic
 	includes.h
 	standard.h
 	am.h
-	altproto.h
 	externs.h
 	blt.h
 	license.h

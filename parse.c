@@ -28,8 +28,7 @@ George Gesslein II, P.O. Box 224, Lansing, NY  14882-0224  USA.
  * Convert all alphabetic characters in a string to lower case.
  */
 void
-str_tolower(cp)
-char	*cp;
+str_tolower(char *cp)
 {
 	if (cp) {
 		for (; *cp; cp++) {
@@ -80,8 +79,7 @@ isvarchar(MathoMatic* mathomatic, int ch)
  * Otherwise, return 0.
  */
 int
-paren_increment(ch)
-int	ch;
+paren_increment(int ch)
 {
 	switch (ch) {
 	case '(':
@@ -96,8 +94,7 @@ int	ch;
  * Return true if character (ch) is the beginning of a Mathomatic operator.
  */
 int
-is_mathomatic_operator(ch)
-int	ch;
+is_mathomatic_operator(int ch)
 {
 	switch (ch) {
 	case '!':
@@ -118,10 +115,9 @@ int	ch;
  * Parenthesize an operator.
  */
 void
-binary_parenthesize(p1, n, i)
-token_type	*p1;	/* pointer to expression */
-int		n;	/* length of expression */
-int		i;	/* location of operator to parenthesize in expression */
+binary_parenthesize(token_type *p1,	/* pointer to expression */
+	int n,	/* length of expression */
+	int i)	/* location of operator to parenthesize in expression */
 {
 	int	j;
 	int	level;
@@ -160,9 +156,8 @@ finish:
  * Handle and remove the special NEGATE operator.
  */
 void
-handle_negate(equation, np)
-token_type	*equation;
-int		*np;
+handle_negate(token_type *equation,
+	int *np)
 {
 	int	i;
 
@@ -658,7 +653,7 @@ parse_var(MathoMatic* mathomatic, long *vp, char *cp)
 	char	*cp1;
 	int	len;
 	int	level;		/* parentheses level */
-	int	(*strcmpfunc)();
+	int	(*strcmpfunc)(const char *, const char *);
 
 	if (mathomatic->case_sensitive_flag) {
 		strcmpfunc = strcmp;
@@ -858,9 +853,8 @@ set_error_level(MathoMatic* mathomatic, char *cp)
  * Return value of constant in "*dp".
  */
 int
-var_is_const(v, dp)
-long	v;
-double	*dp;
+var_is_const(long v,
+	double *dp)
 {
 	if (v == V_E) {
 		if (dp)
@@ -881,9 +875,8 @@ double	*dp;
  * Return true if anything was substituted (therefore approximated).
  */
 int
-subst_constants(equation, np)
-token_type	*equation;
-int		*np;
+subst_constants(token_type *equation,
+	int *np)
 {
 	int	i;
 	int	modified = false;
@@ -911,9 +904,9 @@ int		*np;
  * Return length of src.
  */
 int
-my_strlcpy(dest, src, n)
-char	*dest, *src;
-int	n;
+my_strlcpy(char *dest,
+	char *src,
+	int n)
 {
 	int	len, len_src;
 

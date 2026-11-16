@@ -285,7 +285,6 @@ Mathomatic, use the "version status" command.
                          Mathomatic C source code files
                          ------------------------------
 
-  altproto.h - alternate proto.h, function prototypes, made by hand
   am.h - the main include file for Mathomatic, contains tunable parameters
   blt.h - the fast memory copy routine, allows overlapping copies
   complex.h - floating point complex number arithmetic function prototypes

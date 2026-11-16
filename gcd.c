@@ -113,8 +113,7 @@ gcd_verified(MathoMatic* mathomatic, double d1, double d2)
  * Returns the passed floating point double rounded to the nearest integer.
  */
 double
-my_round(d1)
-double	d1;	/* value to round */
+my_round(double d1)	/* value to round */
 {
 	if (d1 >= 0.0) {
 		modf(d1 + 0.5, &d1);

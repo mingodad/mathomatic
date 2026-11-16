@@ -36,7 +36,7 @@ George Gesslein II, P.O. Box 224, Lansing, NY  14882-0224  USA.
 typedef	struct {
 	const char	*name;			/* command name to be typed by user (must not contain any spaces) */
 	const char	*secondary_name;	/* another name for this command */
-	int	(*func)();		/* function that handles this command */
+	int	(*func)(MathoMatic* mathomatic, char *cp);	/* function that handles this command */
 					/* function is passed a char pointer and returns true if successful */
 	const char	*usage;			/* command syntax text */
 	const char	*info;			/* one line description of command */

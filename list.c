@@ -237,8 +237,7 @@ display_all_colors(MathoMatic* mathomatic)
  * Trim the trailing zeros from a string, after the decimal point.
  */
 static void
-trim_zeros(buf)
-char	*buf;
+trim_zeros(char *buf)
 {
 	int	j;
 
@@ -746,9 +745,8 @@ list_string_sub(MathoMatic* mathomatic, token_type *p1, int n, int outflag, char
  * Return -1 if it contains non-integer divide operators, but is OK otherwise.
  */
 int
-int_expr(p1, n)
-token_type	*p1;		/* expression pointer */
-int		n;		/* length of expression */
+int_expr(token_type *p1,	/* expression pointer */
+	int n)	/* length of expression */
 {
 	int	i;
 	int	rv = 1;
@@ -1016,7 +1014,7 @@ flist_equation_string(MathoMatic* mathomatic, int n)
 //int	n;	/* equation space number */
 {
 	int	i;
-	int	len, cur_len, buf_len;
+	int	cur_len, buf_len;
 	int	pos;
 	int	high = 0, low = 0;
 	int	max_line = 0, min_line = 0;
@@ -1032,10 +1030,9 @@ flist_equation_string(MathoMatic* mathomatic, int n)
 	}
 	mathomatic->cur_line = 0;
 	mathomatic->cur_pos = 0;
-	len = flist_sub(mathomatic, mathomatic->lhs[n], mathomatic->n_lhs[n], false, NULL, mathomatic->current_columns, 0, &max_line, &min_line);
+	flist_sub(mathomatic, mathomatic->lhs[n], mathomatic->n_lhs[n], false, NULL, mathomatic->current_columns, 0, &max_line, &min_line);
 	if (mathomatic->n_rhs[n]) {
-		len += strlen(EQUATE_STRING);
-		len += flist_sub(mathomatic, mathomatic->rhs[n], mathomatic->n_rhs[n], false, NULL, mathomatic->current_columns, 0, &high, &low);
+		flist_sub(mathomatic, mathomatic->rhs[n], mathomatic->n_rhs[n], false, NULL, mathomatic->current_columns, 0, &high, &low);
 		if (high > max_line)
 			max_line = high;
 		if (low < min_line)

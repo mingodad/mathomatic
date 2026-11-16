@@ -98,12 +98,14 @@ void
 warning(MathoMatic* mathomatic, const char *str)
 //const char	*str;		/* constant string to display */
 {
+#if	!SILENT && !LIBRARY
 	int	already_warned = false;
 
 	if (mathomatic->warning_str) {
 		if (strcmp(str, mathomatic->warning_str) == 0)
 			already_warned = true;
 	}
+#endif
 	mathomatic->warning_str = str;	/* save reference to str, must be a constant string, temporary strings don't work */
 #if	!SILENT && !LIBRARY
 	if (!already_warned && mathomatic->debug_level >= -1) {
@@ -630,10 +632,9 @@ solved_equation(MathoMatic* mathomatic, int i)
  * Return the number of times variable "v" is found in an expression.
  */
 int
-found_var(p1, n, v)
-token_type	*p1;	/* expression pointer */
-int		n;	/* expression length */
-long		v;	/* standard Mathomatic variable */
+found_var(token_type *p1,	/* expression pointer */
+	int n,	/* expression length */
+	long v)	/* standard Mathomatic variable */
 {
 	int	j;
 	int	count = 0;
@@ -1109,8 +1110,7 @@ free_result_str(MathoMatic* mathomatic)
  * Return true if the first word in the passed string is "all".
  */
 int
-is_all(cp)
-char	*cp;
+is_all(char *cp)
 {
 	return(strcmp_tospace(cp, "all") == 0);
 }
@@ -1250,8 +1250,7 @@ get_range_eol(MathoMatic* mathomatic, char **cpp, int *ip, int *jp)
  * Skip over space characters.
  */
 char *
-skip_space(cp)
-char	*cp;	/* character pointer */
+skip_space(char *cp)	/* character pointer */
 {
 	if (cp) {
 		while (*cp && isspace(*cp))
@@ -1264,8 +1263,7 @@ char	*cp;	/* character pointer */
  * Skip over a possible comma and space characters.
  */
 char *
-skip_comma_space(cp)
-char	*cp;	/* character pointer */
+skip_comma_space(char *cp)	/* character pointer */
 {
 	if (cp) {
 		cp = skip_space(cp);
@@ -1280,8 +1278,8 @@ char	*cp;	/* character pointer */
  * Skips trailing spaces or commas.
  */
 long
-decstrtol(cp, cpp)
-char	*cp, **cpp;
+decstrtol(char *cp,
+	char **cpp)
 {
 	long	l;
 
@@ -1296,8 +1294,7 @@ char	*cp, **cpp;
  * Return true if passed character is a Mathomatic command parameter delimiter.
  */
 int
-isdelimiter(ch)
-int	ch;
+isdelimiter(int ch)
 {
 	return(isspace(ch) || ch == ',' || ch == '=');
 }
@@ -1309,8 +1306,7 @@ int	ch;
  * Returns a string (character pointer) to the next parameter.
  */
 char *
-skip_param(cp)
-char	*cp;
+skip_param(char *cp)
 {
 	if (cp) {
 		while (*cp && (!isascii(*cp) || !isdelimiter(*cp))) {
@@ -1331,8 +1327,8 @@ char	*cp;
  * Returns zero on exact match, otherwise non-zero if strings are different.
  */
 int
-strcmp_tospace(cp1, cp2)
-char	*cp1, *cp2;
+strcmp_tospace(char *cp1,
+	char *cp2)
 {
 	char	*cp1a, *cp2a;
 
@@ -1351,10 +1347,9 @@ char	*cp1, *cp2;
  * Return the number of "level" additive type operators.
  */
 int
-level_plus_count(p1, n1, level)
-token_type	*p1;	/* expression pointer */
-int		n1;	/* expression length */
-int		level;	/* parentheses level number to check */
+level_plus_count(token_type *p1,	/* expression pointer */
+	int n1,	/* expression length */
+	int level)	/* parentheses level number to check */
 {
 	int	i;
 	int	count = 0;
@@ -1386,9 +1381,8 @@ level1_plus_count(MathoMatic* mathomatic, token_type *p1, int n1)
  * Return the count of variables in an expression.
  */
 int
-var_count(p1, n1)
-token_type	*p1;	/* expression pointer */
-int		n1;	/* expression length */
+var_count(token_type *p1,	/* expression pointer */
+	int n1)	/* expression length */
 {
 	int	i;
 	int	count = 0;
@@ -1407,10 +1401,9 @@ int		n1;	/* expression length */
  * Return true if expression contains no variables.
  */
 int
-no_vars(source, n, vp)
-token_type	*source;	/* expression pointer */
-int		n;		/* expression length */
-long		*vp;		/* variable pointer */
+no_vars(token_type *source,	/* expression pointer */
+	int n,	/* expression length */
+	long *vp)	/* variable pointer */
 {
 	int	j;
 	int	found = false;
@@ -1440,9 +1433,8 @@ long		*vp;		/* variable pointer */
  * Return true if expression contains infinity or NaN (Not a Number).
  */
 int
-exp_contains_infinity(p1, n1)
-token_type	*p1;	/* expression pointer */
-int		n1;	/* expression length */
+exp_contains_infinity(token_type *p1,	/* expression pointer */
+	int n1)	/* expression length */
 {
 	int	i;
 
@@ -1458,9 +1450,8 @@ int		n1;	/* expression length */
  * Return true if expression contains NaN (Not a Number).
  */
 int
-exp_contains_nan(p1, n1)
-token_type	*p1;	/* expression pointer */
-int		n1;	/* expression length */
+exp_contains_nan(token_type *p1,	/* expression pointer */
+	int n1)	/* expression length */
 {
 	int	i;
 
@@ -1477,9 +1468,8 @@ int		n1;	/* expression length */
  * Pseudo-variables e, pi, i, and sign are considered numeric.
  */
 int
-exp_is_numeric(p1, n1)
-token_type	*p1;	/* expression pointer */
-int		n1;	/* expression length */
+exp_is_numeric(token_type *p1,	/* expression pointer */
+	int n1)	/* expression length */
 {
 	int	i;
 
@@ -1496,9 +1486,8 @@ int		n1;	/* expression length */
  * Return true if it does.
  */
 int
-exp_is_absolute(p1, n1)
-token_type	*p1;	/* expression pointer */
-int		n1;	/* expression length */
+exp_is_absolute(token_type *p1,	/* expression pointer */
+	int n1)	/* expression length */
 {
 	int	i;
 	int	level;
@@ -1538,8 +1527,7 @@ check_divide_by_zero(MathoMatic* mathomatic, double denominator)
  * dirname(3) strips the non-directory suffix from a filename.
  */
 char *
-dirname_win(cp)
-char	*cp;	/* string containing filename to modify */
+dirname_win(char *cp)	/* string containing filename to modify */
 {
 	int	i;
 
